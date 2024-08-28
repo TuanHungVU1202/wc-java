@@ -10,14 +10,21 @@ name: Java CI with Maven
 
 on:
   push:
-    branches: [ "master" ]
+    branches:
+      - master
+      - develop
+      - 'feature/**'
   pull_request:
-    branches: [ "master" ]
+    types: [closed]
+    branches:
+      - master
+      - develop
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.pull_request.merged == true)
 
     steps:
     - uses: actions/checkout@v4
