@@ -3,33 +3,33 @@ package service;
 import java.io.File;
 
 public class SizeCounter {
-    private static String MB = " MB";
-    private static String KB = " KB";
-    private static String BYTES = " Bytes";
+    public static String MB = " MB";
+    public static String KB = " KB";
+    public static String BYTES = " Bytes";
 
-    public static String getSizeInByte(File input) {
+    public static long getSizeInByte(File input) {
         if (null == input) {
-            return "Invalid input";
+            return -1;
         }
 
-        return input.length() + BYTES;
+        return input.length();
     }
 
-    public static String getSizeInKiloBytes(File input) {
+    public static long getSizeInKiloBytes(File input) {
         if (null == input) {
-            return "Invalid input";
+            return -1;
         }
 
         double sizeInKb = input.length() / 1024;
-        return sizeInKb + KB;
+        return (long) sizeInKb;
     }
 
-    public static String getSizeInMegabytes(File input) {
+    public static long getSizeInMegabytes(File input) {
         if (null == input) {
-            return "Invalid input";
+            return -1;
         }
 
         double sizeInMb = input.length() / (1024 * 1024);
-        return sizeInMb + MB;
+        return (long) sizeInMb;
     }
 }
