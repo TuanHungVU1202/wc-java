@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class LineCounter {
     public static int countLines(File input) {
-        if (null == input) {
+        if (null == input || !input.canRead() || input.isDirectory()) {
             return -1;
         }
 
@@ -17,6 +17,7 @@ public class LineCounter {
             }
         } catch (Exception e) {
             System.err.println("Error counting lines: " + e.getMessage());
+            return -1;
         }
 
         return lineCount;
