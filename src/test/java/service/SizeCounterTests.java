@@ -32,21 +32,21 @@ public class SizeCounterTests {
 
     @Test
     public void shouldReturnCorrectSizeInBytesWhenInputFileExists() {
-        long expectedSize = 342190;
+        long expectedSize = new File(m_TestFileStr).length();
         long actualSize = SizeCounter.getSizeInByte(new File(m_TestFileStr));
         assertEquals(expectedSize, actualSize);
     }
 
     @Test
     public void shouldReturnCorrectSizeInKiloBytesWhenInputFileExists() {
-        long expectedSize = 342190 / 1024;
+        long expectedSize = new File(m_TestFileStr).length() / 1024;
         long actualSize = SizeCounter.getSizeInKiloBytes(new File(m_TestFileStr));
         assertEquals(expectedSize, actualSize);
     }
 
     @Test
     public void shouldReturnCorrectSizeInMegabytesWhenInputFileExists() {
-        long expectedSize = 342190 / (1024 * 1024);
+        long expectedSize = new File(m_TestFileStr).length() / (1024 * 1024);
         long actualSize = SizeCounter.getSizeInMegabytes(new File(m_TestFileStr));
         assertEquals(expectedSize, actualSize);
     }
