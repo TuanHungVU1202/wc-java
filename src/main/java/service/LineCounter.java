@@ -17,6 +17,7 @@ public class LineCounter {
             }
         } catch (Exception e) {
             System.err.println("Error counting lines: " + e.getMessage());
+            return -1;
         }
 
         return lineCount;
