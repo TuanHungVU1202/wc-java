@@ -6,7 +6,7 @@ import java.io.IOException;
 
 public class CharacterCounter {
     public static int countCharacters(File input) {
-        if (null == input) {
+        if (null == input || !input.canRead() || input.isDirectory()) {
             return -1;
         }
 
