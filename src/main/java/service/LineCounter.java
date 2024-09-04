@@ -12,8 +12,8 @@ public class LineCounter {
         int lineCount = 0;
         try (Scanner scanner = new Scanner(input)) {
             while (scanner.hasNextLine()) {
-                scanner.nextLine();
                 lineCount++;
+                scanner.nextLine();
             }
         } catch (Exception e) {
             System.err.println("Error counting lines: " + e.getMessage());
