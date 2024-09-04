@@ -5,8 +5,11 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class LineCounterTests {
     @Test
@@ -87,5 +90,53 @@ public class LineCounterTests {
 
         int lineCount = LineCounter.countLines(invalidFilePath);
         assertEquals(-1, lineCount);
+    }
+
+    @Test
+    public void shouldHandleFilesWithBinaryData() throws Exception {
+        // Create a temporary file with binary data
+        File fileWithBinaryData = File.createTempFile("binary", ".dat");
+        fileWithBinaryData.deleteOnExit();
+        byte[] binaryData = { 0x01, 0x02, 0x03, 0x04, 0x05 };
+        Files.write(fileWithBinaryData.toPath(), binaryData);
+
+        int actualLineCount = LineCounter.countLines(fileWithBinaryData);
+        assertEquals(1, actualLineCount);
+    }
+
+    @Test
+    public void shouldHandleFileFromResources() throws Exception {
+        // Get the file from resources
+        File testFile = new File("src/test/resources/test.txt");
+
+        int actualLineCount = LineCounter.countLines(testFile);
+        assertEquals(7145, actualLineCount);
+    }
+
+    @Test
+    public void shouldHandleEmptyLinesInFile() throws Exception {
+        // Get the file from resources
+        File testFile = new File("src/test/resources/test.txt");
+
+        int actualLineCount = LineCounter.countLines(testFile);
+        assertEquals(7145, actualLineCount, "File should have 7145 lines");
+
+        // Read the file content to verify empty lines
+        List<String> lines = Files.readAllLines(testFile.toPath());
+        long emptyLines = lines.stream().filter(String::isEmpty).count();
+        assertTrue(emptyLines > 0, "File should contain empty lines");
+        assertEquals(lines.size(), actualLineCount, "Line count should match total lines including empty ones");
+    }
+
+    @Test
+    public void shouldHandleFileWithOnlyEmptyLines() throws Exception {
+        // Create a temporary file with only empty lines
+        File emptyLinesFile = File.createTempFile("emptyLines", ".txt");
+        emptyLinesFile.deleteOnExit();
+        List<String> emptyLines = Arrays.asList("", "", "");
+        Files.write(emptyLinesFile.toPath(), emptyLines);
+
+        int actualLineCount = LineCounter.countLines(emptyLinesFile);
+        assertEquals(3, actualLineCount);
     }
 }
