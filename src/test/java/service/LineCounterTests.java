@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class LineCounterTests {
     @Test
     public void shouldReturnMinusOneWhenInputIsNull() {
-        int lineCount = LineCounter.countLines(null);
+        int lineCount = LineCounter.countLines((File) null);
         assertEquals(-1, lineCount);
     }
 
@@ -138,5 +138,64 @@ public class LineCounterTests {
 
         int actualLineCount = LineCounter.countLines(emptyLinesFile);
         assertEquals(3, actualLineCount);
+    }
+
+    @Test
+    public void shouldReturnNegativeOneForNullString() {
+        int lineCount = LineCounter.countLines((String) null);
+        assertEquals(-1, lineCount);
+    }
+
+    @Test
+    public void shouldCountLinesInEmptyString() {
+        int lineCount = LineCounter.countLines("");
+        assertEquals(1, lineCount);
+    }
+
+    @Test
+    public void shouldCountLinesInSingleLineString() {
+        int lineCount = LineCounter.countLines("This is a single line.");
+        assertEquals(1, lineCount);
+    }
+
+    @Test
+    public void shouldCountLinesInMultiLineString() {
+        String multiLineString = "This is line 1.\nThis is line 2.\nThis is line 3.";
+        int lineCount = LineCounter.countLines(multiLineString);
+        assertEquals(3, lineCount);
+    }
+
+    @Test
+    public void shouldHandleStringWithEmptyLines() {
+        String stringWithEmptyLines = "Line 1\n\nLine 3\n\nLine 5";
+        int lineCount = LineCounter.countLines(stringWithEmptyLines);
+        assertEquals(5, lineCount);
+    }
+
+    @Test
+    public void shouldHandleStringWithOnlyEmptyLines() {
+        String onlyEmptyLines = "\n\n\n";
+        int lineCount = LineCounter.countLines(onlyEmptyLines);
+        assertEquals(4, lineCount);
+    }
+
+    @Test
+    public void shouldHandleLargeString() {
+        StringBuilder largeStringBuilder = new StringBuilder();
+        int expectedLineCount = 100000 + 1;
+        for (int i = 0; i < expectedLineCount - 1; i++) {
+            largeStringBuilder.append("Line ").append(i + 1).append("\n");
+        }
+        String largeString = largeStringBuilder.toString();
+
+        int lineCount = LineCounter.countLines(largeString);
+        assertEquals(expectedLineCount, lineCount);
+    }
+
+    @Test
+    public void shouldHandleStringWithDifferentLineEndings() {
+        String mixedLineEndings = "Line 1\nLine 2\r\nLine 3\rLine 4";
+        int lineCount = LineCounter.countLines(mixedLineEndings);
+        assertEquals(3, lineCount);
     }
 }

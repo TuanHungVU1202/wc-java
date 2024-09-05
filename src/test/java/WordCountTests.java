@@ -1,7 +1,9 @@
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Path;
 
@@ -98,6 +100,78 @@ public class WordCountTests {
         WordCount.main(new String[]{"nonexistent.txt"});
 
         String expected = "Error: File not found or is not a regular file.";
+        String actual = outContent.toString().trim();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testStringInput() {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
+        WordCount.main(new String[]{"-w", "\"Hello world\""});
+
+        String expected = "      2".trim();
+        String actual = outContent.toString().trim();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testStringInputWithMultipleOptions() {
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
+        WordCount.main(new String[]{"\"Hello world\""});
+
+        String expected = "      1       2      11".trim();
+        String actual = outContent.toString().trim();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testStandardInput() throws IOException {
+        String input = "Hello\nWorld\n";
+        ByteArrayInputStream inContent = new ByteArrayInputStream(input.getBytes());
+        System.setIn(inContent);
+
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
+        WordCount.main(new String[]{});
+
+        String expected = "      3       2      12".trim();
+        String actual = outContent.toString().trim();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testStandardInputWithOption() throws IOException {
+        String input = "Hello\nWorld\n";
+        ByteArrayInputStream inContent = new ByteArrayInputStream(input.getBytes());
+        System.setIn(inContent);
+
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
+        WordCount.main(new String[]{"-l"});
+
+        String expected = "      3".trim();
+        String actual = outContent.toString().trim();
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void testPipedInput() throws IOException {
+        String input = "This is a test\nof piped input\n";
+        ByteArrayInputStream inContent = new ByteArrayInputStream(input.getBytes());
+        System.setIn(inContent);
+
+        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
+        System.setOut(new PrintStream(outContent));
+
+        WordCount.main(new String[]{"-w"});
+
+        String expected = "      7".trim();
         String actual = outContent.toString().trim();
         assertEquals(expected, actual);
     }
