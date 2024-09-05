@@ -17,7 +17,7 @@ public class CharacterCounterTests {
     @Test
     public void shouldCountCharactersInFile() throws Exception {
         File file = new File("src/test/resources/test.txt");
-        Process process = Runtime.getRuntime().exec(new String[]{"wc", "-c", file.getAbsolutePath()});
+        Process process = Runtime.getRuntime().exec(new String[]{"wc", "-m", file.getAbsolutePath()});
         process.waitFor();
         String output = new String(process.getInputStream().readAllBytes()).trim();
         int expectedCharacterCount = Integer.parseInt(output.split("\\s+")[0]);

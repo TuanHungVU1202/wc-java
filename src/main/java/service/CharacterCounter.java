@@ -1,8 +1,7 @@
 package service;
 
-import java.io.BufferedInputStream;
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
 
 public class CharacterCounter {
@@ -12,11 +11,9 @@ public class CharacterCounter {
         }
 
         int characterCount = 0;
-        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(input))) {
-            byte[] buffer = new byte[8192];
-            int bytesRead;
-            while ((bytesRead = bis.read(buffer)) != -1) {
-                characterCount += bytesRead;
+        try (FileReader fileReader = new FileReader(input)) {
+            while (fileReader.read() != -1) {
+                characterCount++;
             }
         } catch (IOException e) {
             System.err.println("Error counting characters: " + e.getMessage());
