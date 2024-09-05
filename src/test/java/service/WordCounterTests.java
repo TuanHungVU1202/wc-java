@@ -17,7 +17,7 @@ public class WordCounterTests {
 
     @Test
     public void shouldReturnNegativeOneForNullFile() {
-        int wordCount = WordCounter.countWords(null);
+        int wordCount = WordCounter.countWords((File) null);
         assertEquals(-1, wordCount);
     }
 
@@ -61,5 +61,56 @@ public class WordCounterTests {
                 "This is a test.\nIt has multiple lines.\nTotal eleven words.".getBytes());
         int wordCount = WordCounter.countWords(multiLineFile);
         assertEquals(11, wordCount);
+    }
+
+    @Test
+    public void shouldReturnNegativeOneForNullString() {
+        int wordCount = WordCounter.countWords((String) null);
+        assertEquals(-1, wordCount);
+    }
+
+    @Test
+    public void shouldCountWordsInEmptyString() {
+        int wordCount = WordCounter.countWords("");
+        assertEquals(0, wordCount);
+    }
+
+    @Test
+    public void shouldCountWordsInSingleWordString() {
+        int wordCount = WordCounter.countWords("word");
+        assertEquals(1, wordCount);
+    }
+
+    @Test
+    public void shouldCountWordsInMultiLineString() {
+        String multiLineString = "This is a test.\nIt has multiple lines.\nTotal eleven words.";
+        int wordCount = WordCounter.countWords(multiLineString);
+        assertEquals(11, wordCount);
+    }
+
+    @Test
+    public void shouldHandleStringWithMultipleSpaces() {
+        String stringWithMultipleSpaces = "This   string   has   multiple   spaces";
+        int wordCount = WordCounter.countWords(stringWithMultipleSpaces);
+        assertEquals(5, wordCount);
+    }
+
+    @Test
+    public void shouldHandleStringWithLeadingAndTrailingSpaces() {
+        String stringWithExtraSpaces = "  Leading and trailing spaces  ";
+        int wordCount = WordCounter.countWords(stringWithExtraSpaces);
+        assertEquals(4, wordCount);
+    }
+
+    @Test
+    public void shouldHandleLargeString() {
+        StringBuilder largeStringBuilder = new StringBuilder();
+        for (int i = 0; i < 100000; i++) {
+            largeStringBuilder.append("word ");
+        }
+        String largeString = largeStringBuilder.toString().trim();
+
+        int wordCount = WordCounter.countWords(largeString);
+        assertEquals(100000, wordCount);
     }
 }
