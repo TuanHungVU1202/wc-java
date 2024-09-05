@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 public class WordCounter {
     public static int countWords(File input) {
-        if (null == input) {
+        if (null == input || !input.canRead() || input.isDirectory()) {
             return -1;
         }
 
