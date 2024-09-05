@@ -22,4 +22,12 @@ public class CharacterCounter {
 
         return characterCount;
     }
+
+    public static int countCharacters(String input) {
+        if (null == input) {
+            return -1;
+        }
+
+        return input.length();
+    }
 }

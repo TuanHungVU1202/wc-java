@@ -21,4 +21,16 @@ public class WordCounter {
 
         return wordCount;
     }
+
+    public static int countWords(String input) {
+        if (null == input) {
+            return -1;
+        }
+
+        if (input.isEmpty() || input.isBlank()) {
+            return 0;
+        }
+
+        return input.trim().split("\\s+").length;
+    }
 }
