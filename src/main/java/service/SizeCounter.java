@@ -32,4 +32,30 @@ public class SizeCounter {
         double sizeInMb = input.length() / (1024 * 1024);
         return (long) sizeInMb;
     }
+
+    public static long getSizeInByte(String input) {
+        if (null == input) {
+            return -1;
+        }
+
+        return input.length();
+    }
+
+    public static long getSizeInKiloBytes(String input) {
+        if (null == input) {
+            return -1;
+        }
+
+        double sizeInKb = input.length() / 1024;
+        return (long) sizeInKb;
+    }
+
+    public static long getSizeInMegabytes(String input) {
+        if (null == input) {
+            return -1;
+        }
+
+        double sizeInMb = input.length() / (1024 * 1024);
+        return (long) sizeInMb;
+    }
 }

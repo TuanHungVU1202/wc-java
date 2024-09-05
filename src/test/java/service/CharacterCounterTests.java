@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Test;
 public class CharacterCounterTests {
     @Test
     public void shouldReturnMinusOneWhenInputIsNull() {
-        int characterCount = CharacterCounter.countCharacters(null);
+        int characterCount = CharacterCounter.countCharacters((File) null);
         assertEquals(-1, characterCount);
     }
 
@@ -80,6 +80,44 @@ public class CharacterCounterTests {
         Files.write(largeFile.toPath(), builder.toString().getBytes());
 
         int actualCharacterCount = CharacterCounter.countCharacters(largeFile);
+        assertEquals(expectedCharacterCount, actualCharacterCount);
+    }
+
+    @Test
+    public void shouldReturnNegativeOneForNullString() {
+        int characterCount = CharacterCounter.countCharacters((String) null);
+        assertEquals(-1, characterCount);
+    }
+
+    @Test
+    public void shouldCountCharactersInEmptyString() {
+        int characterCount = CharacterCounter.countCharacters("");
+        assertEquals(0, characterCount);
+    }
+
+    @Test
+    public void shouldCountCharactersInSingleCharacterString() {
+        int characterCount = CharacterCounter.countCharacters("a");
+        assertEquals(1, characterCount);
+    }
+
+    @Test
+    public void shouldCountCharactersInMultiLineStringIncludingNewLines() {
+        String multiLineString = "This is a test.\nIt has multiple lines.\nTotal 59 characters.";
+        int characterCount = CharacterCounter.countCharacters(multiLineString);
+        assertEquals(59, characterCount);
+    }
+
+    @Test
+    public void shouldHandleLargeStringsWithoutRunningOutOfMemory() {
+        int expectedCharacterCount = 1000000;
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < expectedCharacterCount; i++) {
+            builder.append("a");
+        }
+        String largeString = builder.toString();
+
+        int actualCharacterCount = CharacterCounter.countCharacters(largeString);
         assertEquals(expectedCharacterCount, actualCharacterCount);
     }
 }
