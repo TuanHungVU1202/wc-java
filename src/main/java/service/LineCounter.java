@@ -4,6 +4,13 @@ import java.io.File;
 import java.util.Scanner;
 
 public class LineCounter {
+    /**
+     * Counts the number of lines in a given file.
+     *
+     * @param input The File object representing the input file to be read.
+     * @return The number of lines in the file, or -1 if the file is null, 
+     *         cannot be read, is a directory, or if an exception occurs.
+     */
     public static int countLines(File input) {
         if (null == input || !input.canRead() || input.isDirectory()) {
             return -1;
@@ -23,6 +30,14 @@ public class LineCounter {
         return lineCount;
     }
 
+    /**
+     * Counts the number of lines in a given string.
+     *
+     * @param input The input string to count lines from.
+     * @return The number of lines in the string, or -1 if the input is null.
+     *         Note: This method counts newline characters and adds 1 to account
+     *         for the last line without a newline character.
+     */
     public static int countLines(String input) {
         if (null == input) {
             return -1;
