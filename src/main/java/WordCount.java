@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 import service.CharacterCounter;
 import service.LineCounter;
+import service.ManPage;
 import service.SizeCounter;
 import service.WordCounter;
 
@@ -11,22 +12,29 @@ public class WordCount {
         String option = "";
         String input = null;
 
-        if (args.length == 0) {
-            // Read from standard input with default option
-            handleStandardInput(option);
-            return;
-        } else if (args.length == 1) {
-            if (args[0].startsWith("-")) {
+        switch (args.length) {
+            case 0:
+                // Read from standard input with default option
+                handleStandardInput(option);
+                return;
+            case 1:
+                if (args[0].equals("-h")) {
+                    ManPage.showHelpPage();
+                    return;
+                } else if (args[0].startsWith("-")) {
+                    option = args[0];
+                } else {
+                    input = args[0];
+                }
+                break;
+            case 2:
                 option = args[0];
-            } else {
-                input = args[0];
-            }
-        } else if (args.length == 2) {
-            option = args[0];
-            input = args[1];
-        } else {
-            System.out.println("Usage: java WordCount [-c|-l|-w|-m] [<filename or \"string\">]");
-            return;
+                input = args[1];
+                break;
+            default:
+                System.out.println("Usage: java WordCount [-c|-l|-w|-m] [<filename or \"string\">]");
+                System.out.println("For more information, use the -h option: java WordCount -h");
+                return;
         }
 
         if (input == null) {
