@@ -49,6 +49,13 @@ public class WordCount {
         }
     }
 
+    
+    /**
+     * Handles input from a file based on the given option.
+     * 
+     * @param option The command-line option specifying the counting mode (-c, -l, -w, -m, or empty for default).
+     * @param fileName The name of the file to process.
+     */
     private static void handleFileInput(String option, String fileName) {
         File inputFile = new File(fileName);
         if (!inputFile.exists() || !inputFile.isFile()) {
@@ -101,10 +108,21 @@ public class WordCount {
         }
     }
 
+    /**
+     * Handles input from a string based on the given option.
+     * 
+     * @param option The command-line option specifying the counting mode (-c, -l, -w, -m, or empty for default).
+     * @param input The input string to process.
+     */
     private static void handleStringInput(String option, String input) {
         processInput(option, input);
     }
 
+    /**
+     * Handles input from standard input (console) based on the given option.
+     * 
+     * @param option The command-line option specifying the counting mode (-c, -l, -w, -m, or empty for default).
+     */
     private static void handleStandardInput(String option) {
         StringBuilder input = new StringBuilder();
         try (Scanner scanner = new Scanner(System.in)) {
@@ -117,6 +135,12 @@ public class WordCount {
         processInput(option, inputString);
     }
 
+    /**
+     * Processes the input string based on the given option and prints the result.
+     * 
+     * @param option The command-line option specifying the counting mode (-c, -l, -w, -m, or empty for default).
+     * @param input The input string to process.
+     */
     private static void processInput(String option, String input) {
         int lineCount = 0, wordCount = 0, byteCount = 0, charCount = 0;
 
