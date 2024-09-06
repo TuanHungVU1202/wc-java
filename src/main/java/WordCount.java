@@ -102,6 +102,22 @@ public class WordCount {
     }
 
     private static void handleStringInput(String option, String input) {
+        processInput(option, input);
+    }
+
+    private static void handleStandardInput(String option) {
+        StringBuilder input = new StringBuilder();
+        try (Scanner scanner = new Scanner(System.in)) {
+            while (scanner.hasNextLine()) {
+                input.append(scanner.nextLine()).append("\n");
+            }
+        }
+
+        String inputString = input.toString();
+        processInput(option, inputString);
+    }
+
+    private static void processInput(String option, String input) {
         int lineCount = 0, wordCount = 0, byteCount = 0, charCount = 0;
 
         switch (option) {
@@ -131,58 +147,6 @@ public class WordCount {
                 lineCount = LineCounter.countLines(input);
                 wordCount = WordCounter.countWords(input);
                 byteCount = (int) SizeCounter.getSizeInByte(input);
-                if (lineCount != -1 && wordCount != -1 && byteCount != -1) {
-                    System.out.printf("%7d %7d %7d%n", lineCount, wordCount, byteCount);
-                }
-                break;
-            default:
-                System.out.println("Invalid option. Use -c, -l, -w, -m, or no option.");
-                return;
-        }
-
-        if (lineCount == -1 || wordCount == -1 || byteCount == -1) {
-            System.out.println("Error: Unable to process the input.");
-        }
-    }
-
-    private static void handleStandardInput(String option) {
-        StringBuilder input = new StringBuilder();
-        try (Scanner scanner = new Scanner(System.in)) {
-            while (scanner.hasNextLine()) {
-                input.append(scanner.nextLine()).append("\n");
-            }
-        }
-
-        String inputString = input.toString();
-        int lineCount = 0, wordCount = 0, byteCount = 0, charCount = 0;
-
-        switch (option) {
-            case "-c":
-                byteCount = (int) SizeCounter.getSizeInByte(inputString);
-                if (byteCount != -1) {
-                    System.out.printf("%7d%n", byteCount);
-                }
-                break;
-            case "-l":
-                lineCount = LineCounter.countLines(inputString);
-                if (lineCount != -1) {
-                    System.out.printf("%7d%n", lineCount);
-                }
-                break;
-            case "-w":
-                wordCount = WordCounter.countWords(inputString);
-                if (wordCount != -1) {
-                    System.out.printf("%7d%n", wordCount);
-                }
-                break;
-            case "-m":
-                charCount = inputString.length();
-                System.out.printf("%7d%n", charCount);
-                break;
-            case "":
-                lineCount = LineCounter.countLines(inputString);
-                wordCount = WordCounter.countWords(inputString);
-                byteCount = (int) SizeCounter.getSizeInByte(inputString);
                 if (lineCount != -1 && wordCount != -1 && byteCount != -1) {
                     System.out.printf("%7d %7d %7d%n", lineCount, wordCount, byteCount);
                 }
